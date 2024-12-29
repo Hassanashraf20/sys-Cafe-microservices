@@ -1,0 +1,59 @@
+
+services:
+  api_geteway:
+    build: ./http-api-geteway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./http-api-geteway/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3000
+
+  auth-microservice:
+    build: ./auth-microservice
+    volumes:
+      - ./auth-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+
+  drinks-microservice:
+    build: ./drinks-microservice
+    volumes:
+      - ./drinks-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+
+  emp-microservice:
+    build: ./emp-microservice
+    volumes:
+      - ./emp-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+
+  orders&bills-microservice:
+    build: ./orders&bills-microservice
+    volumes:
+      - ./orders&bills-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: hassan
+      RABBITMQ_DEFAULT_PASS: pass123  
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: nestjs-microservice-db
+    ports:
+      - "5432:5432"
+    volumes:
+    - postgres_data:/var/lib/postgresql/data  
+
+
+volumes:
+  postgres_data:

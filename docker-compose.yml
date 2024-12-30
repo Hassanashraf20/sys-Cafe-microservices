@@ -1,7 +1,7 @@
 
 services:
   api_geteway:
-    build: ./http-api-geteway
+    build: ./http-api-geteway/DockerFile
     ports:
       - "3000:3000"
     volumes:
@@ -11,27 +11,27 @@ services:
       - PORT=3000
 
   auth-microservice:
-    build: ./auth-microservice
+    build: ./auth-microservice/DockerFile
     volumes:
       - ./auth-microservice/src:/usr/src/app/src
     command: npm run start:dev
 
   drinks-microservice:
-    build: ./drinks-microservice
+    build: ./drinks-microservice/DockerFile
     volumes:
       - ./drinks-microservice/src:/usr/src/app/src
     command: npm run start:dev
 
   emp-microservice:
-    build: ./emp-microservice
+    build: ./emp-microservice/DockerFile
     volumes:
       - ./emp-microservice/src:/usr/src/app/src
     command: npm run start:dev
 
-  orders&bills-microservice:
-    build: ./orders&bills-microservice
+  orders-bills-microservice:
+    build: ./orders-bills-microservice/DockerFile
     volumes:
-      - ./orders&bills-microservice/src:/usr/src/app/src
+      - ./orders-bills-microservice/src:/usr/src/app/src
     command: npm run start:dev
 
   rabbitmq:

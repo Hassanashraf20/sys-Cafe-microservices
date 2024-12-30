@@ -10,7 +10,7 @@ export class AuthController {
     try {
       return await this.rabbitmqService.send('auth_signup', signupDto);
     } catch (error) {
-      throw error;
+      throw error.massage;
     }
   }
 
@@ -19,16 +19,18 @@ export class AuthController {
     try {
       return await this.rabbitmqService.send('auth_login', loginDto);
     } catch (error) {
-      throw error;
+      throw error.massage;
     }
   }
 
   @Get('profile')
   async getProfile(@Req() req: any) {
     try {
-      return await this.rabbitmqService.send('auth_profile', { user: req.user });
+      return await this.rabbitmqService.send('auth_profile', {
+        user: req.user,
+      });
     } catch (error) {
-      throw error;
+      throw error.massage;
     }
   }
 }

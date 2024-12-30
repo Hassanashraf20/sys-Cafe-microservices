@@ -10,4 +10,6 @@ export class SingupDto {
 
   @IsNotEmpty()
   password: string;
+
+  role?: string;
 }

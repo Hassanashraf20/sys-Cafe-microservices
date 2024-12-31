@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { RabbitmqService } from '../rabbitmq/rabbitmq.service';
 
 @Controller('auth')
@@ -7,11 +7,8 @@ export class AuthController {
 
   @Post('signup')
   async signup(@Body() signupDto: any) {
-    try {
-      return await this.rabbitmqService.send('auth_signup', signupDto);
-    } catch (error) {
-      throw error.massage;
-    }
+    console.log('From Gateway: ', signupDto);
+    return await this.rabbitmqService.send('auth_signup', signupDto);
   }
 
   @Post('login')

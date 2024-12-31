@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { loginDto } from './dtos/login.dto';
 import * as bcrypt from 'bcrypt';
@@ -10,7 +10,7 @@ import { lastValueFrom } from 'rxjs';
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly client: ClientProxy,
+    @Inject('USER_SERVICE') private readonly client: ClientProxy,
   ) {}
 
   async signup(signupDto: SingupDto): Promise<any> {

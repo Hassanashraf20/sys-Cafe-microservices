@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthGatewayModule } from './auth/auth.module';
+import { UserGatewayModule } from './user/user.module';
 
 @Module({
-  imports: [RabbitmqModule, AuthModule],
+  imports: [AuthGatewayModule, UserGatewayModule],
 })
-export class AppModule {}
+export class GatewayModule {}

@@ -1,33 +1,33 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
-import { RabbitmqService } from '../rabbitmq/rabbitmq.service';
+import { Body, Controller, Get, Inject, Post, Req } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { catchError, firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('auth')
-export class AuthController {
-  constructor(private readonly rabbitmqService: RabbitmqService) {}
+export class AuthGatewayController {
+  constructor(@Inject('AUTH_SERVICE') private client: ClientProxy) {}
 
   @Post('signup')
-  async signup(@Body() signupDto: any) {
-    console.log('From Gateway: ', signupDto);
-    return await this.rabbitmqService.send('auth_signup', signupDto);
+  async registerUser(@Body() userData: any) {
+    return lastValueFrom(this.client.send({ cmd: 'auth_signup' }, userData));
   }
 
   @Post('login')
   async login(@Body() loginDto: any) {
     try {
-      return await this.rabbitmqService.send('auth_login', loginDto);
+      // return await this.rabbitmqService.send('auth_login', loginDto);
     } catch (error) {
       throw error.massage;
     }
   }
 
-  @Get('profile')
-  async getProfile(@Req() req: any) {
-    try {
-      return await this.rabbitmqService.send('auth_profile', {
-        user: req.user,
-      });
-    } catch (error) {
-      throw error.massage;
-    }
-  }
+  // @Get('profile')
+  // async getProfile(@Req() req: any) {
+  //   try {
+  //     return await this.rabbitmqService.send('auth_profile', {
+  //       user: req.user,
+  //     });
+  //   } catch (error) {
+  //     throw error.massage;
+  //   }
+  // }
 }

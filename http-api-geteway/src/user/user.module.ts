@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AuthGatewayController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { UserGatewayController } from './user.controller';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'AUTH_SERVICE',
+        name: 'USER_SERVICE',
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://hassan:pass123@rabbitmq:5672'],
-          queue: 'auth_queue',
+          queue: 'user_queue',
           queueOptions: {
             durable: true,
           },
@@ -18,6 +18,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
-  controllers: [AuthGatewayController],
+  controllers: [UserGatewayController],
 })
-export class AuthGatewayModule {}
+export class UserGatewayModule {}
